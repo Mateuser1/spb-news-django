@@ -19,3 +19,4 @@ class ArticleView(viewsets.ModelViewSet):
     def get_articles(self, request):
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
