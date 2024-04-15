@@ -8,6 +8,9 @@ from core.views import ArticleView, AuthorView
 router = DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
-    path('all/', ArticleView.as_view({'get': 'get_articles'})),
-    path('all/', AuthorView.as_view({'get': 'get_authors'})),
+
+    path('article/all/', ArticleView.as_view({'get': 'get_articles'})),
+    path('article/create/', ArticleView.as_view({'post': 'create_article'})),
+
+    path('author/all/', AuthorView.as_view({'get': 'get_authors'})),
 ]
