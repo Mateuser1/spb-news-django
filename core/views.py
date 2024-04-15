@@ -4,8 +4,8 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from core.models import Article
-from core.serializers import ArticleSerializer
+from core.models import Article, Author
+from core.serializers import ArticleSerializer, AuthorSerializer
 
 
 # Create your views here.
@@ -20,3 +20,13 @@ class ArticleView(viewsets.ModelViewSet):
         serializer = self.serializer_class(self.queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+class AuthorView(viewsets.ModelViewSet):
+    queryset: QuerySet[Author] = Author.objects.all()
+    serializer_class = AuthorSerializer
+    permission_classes = [permissions.AllowAny]
+
+    @action(methods=['get'], detail=False)
+    def get_authors(self, request):
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
