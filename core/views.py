@@ -18,7 +18,8 @@ class ArticleView(viewsets.ModelViewSet):
 
     @action(methods=['get'], detail=False)
     def get_articles(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
+        queryset: QuerySet[Article] = Article.objects.all()
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=False)
@@ -31,13 +32,27 @@ class ArticleView(viewsets.ModelViewSet):
             author=author,
         )
         serializer = self.serializer_class(article)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(methods=['delete'], detail=False)
     def delete_article(self, request):
-        article = get_object_or_404(Article, pk=request.data['article'])
+        article = get_object_or_404(Article, pk=request.data.get('article'))
         self.perform_destroy(article)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=['put'], detail=False)
+    def update_article(self, request):
+        article = get_object_or_404(Article, pk=request.data.get('article'))
+        title = request.data.get('title')
+        content = request.data.get('content')
+        if title:
+            article.title = title
+        if content:
+            article.content = content
+        article.save()
+        serializer = self.serializer_class(article)
+        return Response(serializer.data, status.HTTP_200_OK)
+
 
 
 class AuthorView(viewsets.ModelViewSet):

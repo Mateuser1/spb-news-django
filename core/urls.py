@@ -13,6 +13,7 @@ urlpatterns = [
     path('article/all/', ArticleView.as_view({'get': 'get_articles'})),
     path('article/create/', ArticleView.as_view({'post': 'create_article'})),
     path('article/delete/', ArticleView.as_view({'delete': 'delete_article'})),
+    path('article/update/', ArticleView.as_view({'put': 'update_article'})),
 
     # AUTHOR
     path('author/all/', AuthorView.as_view({'get': 'get_authors'})),
