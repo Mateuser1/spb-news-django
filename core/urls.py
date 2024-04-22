@@ -9,8 +9,13 @@ router = DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
 
+    # ARTICLE
     path('article/all/', ArticleView.as_view({'get': 'get_articles'})),
     path('article/create/', ArticleView.as_view({'post': 'create_article'})),
+    path('article/delete/', ArticleView.as_view({'delete': 'delete_article'})),
 
+    # AUTHOR
     path('author/all/', AuthorView.as_view({'get': 'get_authors'})),
+    path('author/create/', AuthorView.as_view({'post': 'create_author'})),
+    path('author/delete/', AuthorView.as_view({'delete': 'delete_author'})),
 ]
